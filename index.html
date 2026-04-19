@@ -320,6 +320,7 @@ body.dark nav{background:rgba(5,5,5,0.97)!important}
 }
 .fsubmit:hover{background:var(--r2)}
 .fnote{font-size:10px;color:rgba(102,102,102,.6);text-align:center;margin-top:8px;font-family:var(--fm)}
+.field-error{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:#E01010;letter-spacing:1px;padding:6px 10px;border:1px solid rgba(224,16,16,0.35);background:rgba(224,16,16,0.06);margin-top:5px;}
 .success-box{display:none;text-align:center;padding:36px;border:1px solid rgba(255,26,26,.3);background:rgba(255,26,26,.05)}
 .success-box h3{font-family:var(--fd);font-size:32px;color:var(--r);margin-bottom:8px}
 .success-box p{font-size:13px;color:var(--mt)}
@@ -619,12 +620,12 @@ footer{background:#1A1A1A;border-top:3px solid var(--r);padding:44px 48px 24px}
         <div>
           <div id="form-container">
             <div class="frow">
-              <div class="fgroup"><label>ФИО *</label><input type="text" id="f-name" placeholder="Иванов Иван"></div>
-              <div class="fgroup"><label>Телефон *</label><input type="tel" id="f-phone" placeholder="+7 (___) ___-__-__"></div>
+              <div class="fgroup"><label>ФИО *</label><input type="text" id="f-name" placeholder="Иванов Иван" oninput="clearErr('name-error',this)"><div id="name-error" class="field-error" style="display:none">⚠ Введите имя (только буквы)</div></div>
+              <div class="fgroup"><label>Телефон *</label><input type="tel" id="f-phone" placeholder="+7 (___) ___-__-__" oninput="clearErr('phone-error',this)"><div id="phone-error" class="field-error" style="display:none">⚠ Введите номер телефона</div></div>
             </div>
             <div class="fgroup">
-              <label>Тип ключа / услуга</label>
-              <select id="f-service">
+              <label>Тип ключа / услуга *</label>
+              <select id="f-service" onchange="clearErr('service-error',this)">
                 <option value="">— выберите тип —</option>
                 <option>Автомобильный ключ</option>
                 <option>Домашний ключ</option>
@@ -636,6 +637,7 @@ footer{background:#1A1A1A;border-top:3px solid var(--r);padding:44px 48px 24px}
                 <option>Диагностика</option>
                 <option>Другое</option>
               </select>
+              <div id="service-error" class="field-error" style="display:none">⚠ Выберите тип услуги</div>
             </div>
             <div class="fgroup"><label>Марка / модель (если авто, катер и т.д.)</label><input type="text" id="f-car" placeholder="Например: Toyota Camry 2020"></div>
             <div class="fgroup"><label>Комментарий</label><textarea id="f-comment" placeholder="Опишите ситуацию..."></textarea></div>
@@ -704,27 +706,77 @@ footer{background:#1A1A1A;border-top:3px solid var(--r);padding:44px 48px 24px}
 </footer>
 
 <script>
+/* ---- helpers ---- */
+function showErr(id, el){
+  var e=document.getElementById(id);
+  if(e){e.style.display='block';}
+  if(el){el.style.borderColor='#E01010';}
+}
+function clearErr(id, el){
+  var e=document.getElementById(id);
+  if(e){e.style.display='none';}
+  if(el){el.style.borderColor='';}
+}
+
+/* ---- consent ---- */
 function clearConsentError(){
-  document.getElementById('consent-error').style.display='none';
+  clearErr('consent-error', null);
   document.getElementById('c1-wrap').style.outline='none';
 }
+
+/* ---- submit ---- */
 function handleSubmit(){
-  var n=document.getElementById('f-name').value.trim();
-  var p=document.getElementById('f-phone').value.trim();
-  var c=document.getElementById('c1').checked;
-  var err=document.getElementById('consent-error');
-  var wrap=document.getElementById('c1-wrap');
-  if(!c){
-    err.style.display='block';
-    wrap.scrollIntoView({behavior:'smooth',block:'center'});
-    wrap.style.outline='2px solid #E01010';
-    if(!n||!p){alert('Заполните обязательные поля (ФИО и телефон).');}
+  var nameEl=document.getElementById('f-name');
+  var phoneEl=document.getElementById('f-phone');
+  var svcEl=document.getElementById('f-service');
+  var c1=document.getElementById('c1');
+
+  var n=nameEl.value.trim();
+  var p=phoneEl.value.trim();
+  var svc=svcEl.value;
+  var ok=true;
+
+  /* ФИО */
+  if(!n){showErr('name-error',nameEl);ok=false;}
+  /* телефон: нужно минимум 10 цифр */
+  var digits=p.replace(/\D/g,'');
+  if(!p||digits.length<11){showErr('phone-error',phoneEl);ok=false;}
+  /* услуга */
+  if(!svc){showErr('service-error',svcEl);ok=false;}
+  /* согласие */
+  if(!c1.checked){
+    document.getElementById('consent-error').style.display='block';
+    document.getElementById('c1-wrap').style.outline='2px solid #E01010';
+    ok=false;
+  }
+
+  if(!ok){
+    /* прокрутить к первой ошибке */
+    var first=document.querySelector('.field-error[style*="block"], #consent-error[style*="block"]');
+    if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
-  if(!n||!p){alert('Заполните обязательные поля: ФИО и телефон.');return;}
+
   document.getElementById('form-container').style.display='none';
   document.getElementById('success-box').style.display='block';
 }
+
+/* ---- ФИО: только буквы, пробелы, дефис ---- */
+var nm=document.getElementById('f-name');
+if(nm){
+  nm.addEventListener('keydown',function(e){
+    var allowed=['Backspace','Delete','Tab','ArrowLeft','ArrowRight','Home','End',' ','-'];
+    if(allowed.indexOf(e.key)!==-1)return;
+    if(!/^[а-яёА-ЯЁa-zA-Z]$/.test(e.key)){e.preventDefault();}
+  });
+  nm.addEventListener('paste',function(e){
+    e.preventDefault();
+    var t=(e.clipboardData||window.clipboardData).getData('text').replace(/[^а-яёА-ЯЁa-zA-Z\s\-]/g,'');
+    document.execCommand('insertText',false,t);
+  });
+}
+
+/* ---- телефон: только цифры ---- */
 var ph=document.getElementById('f-phone');
 if(ph){
   ph.addEventListener('keydown',function(e){
