@@ -639,9 +639,12 @@ footer{background:#1A1A1A;border-top:3px solid var(--r);padding:44px 48px 24px}
             </div>
             <div class="fgroup"><label>Марка / модель (если авто, катер и т.д.)</label><input type="text" id="f-car" placeholder="Например: Toyota Camry 2020"></div>
             <div class="fgroup"><label>Комментарий</label><textarea id="f-comment" placeholder="Опишите ситуацию..."></textarea></div>
-            <div class="fcheck">
-              <input type="checkbox" id="c1">
+            <div class="fcheck" id="c1-wrap">
+              <input type="checkbox" id="c1" onchange="clearConsentError()">
               <label for="c1">Согласен на <a href="#">обработку персональных данных</a> согласно ФЗ-152 и <a href="#">политике конфиденциальности</a> *</label>
+            </div>
+            <div id="consent-error" style="display:none;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:#E01010;letter-spacing:1px;padding:8px 12px;border:1px solid rgba(224,16,16,0.4);background:rgba(224,16,16,0.06);margin-bottom:10px;">
+              ⚠ Необходимо подтвердить согласие на обработку данных
             </div>
             <div class="fcheck">
               <input type="checkbox" id="c2">
@@ -701,31 +704,57 @@ footer{background:#1A1A1A;border-top:3px solid var(--r);padding:44px 48px 24px}
 </footer>
 
 <script>
+function clearConsentError(){
+  document.getElementById('consent-error').style.display='none';
+  document.getElementById('c1-wrap').style.outline='none';
+}
 function handleSubmit(){
   var n=document.getElementById('f-name').value.trim();
   var p=document.getElementById('f-phone').value.trim();
   var c=document.getElementById('c1').checked;
-  if(!n||!p||!c){alert('Заполните обязательные поля и подтвердите согласие.');return;}
+  var err=document.getElementById('consent-error');
+  var wrap=document.getElementById('c1-wrap');
+  if(!c){
+    err.style.display='block';
+    wrap.scrollIntoView({behavior:'smooth',block:'center'});
+    wrap.style.outline='2px solid #E01010';
+    if(!n||!p){alert('Заполните обязательные поля (ФИО и телефон).');}
+    return;
+  }
+  if(!n||!p){alert('Заполните обязательные поля: ФИО и телефон.');return;}
   document.getElementById('form-container').style.display='none';
   document.getElementById('success-box').style.display='block';
 }
 var ph=document.getElementById('f-phone');
-if(ph){ph.addEventListener('input',function(e){
-  var v=e.target.value.replace(/\D/g,'');
-  if(v.length>0){
-    if(v[0]==='7'||v[0]==='8')v=v.slice(1);
-    var f='+7';
-    if(v.length>0)f+=' ('+v.slice(0,3);
-    if(v.length>=3)f+=') '+v.slice(3,6);
-    if(v.length>=6)f+='-'+v.slice(6,8);
-    if(v.length>=8)f+='-'+v.slice(8,10);
-    e.target.value=f;
-  }
-});}
+if(ph){
+  ph.addEventListener('keydown',function(e){
+    var allowed=['Backspace','Delete','Tab','ArrowLeft','ArrowRight','Home','End'];
+    if(allowed.indexOf(e.key)!==-1)return;
+    if(!/^\d$/.test(e.key)){e.preventDefault();}
+  });
+  ph.addEventListener('input',function(e){
+    var v=e.target.value.replace(/\D/g,'');
+    if(v.length>0){
+      if(v[0]==='7'||v[0]==='8')v=v.slice(1);
+      var f='+7';
+      if(v.length>0)f+=' ('+v.slice(0,3);
+      if(v.length>=3)f+=') '+v.slice(3,6);
+      if(v.length>=6)f+='-'+v.slice(6,8);
+      if(v.length>=8)f+='-'+v.slice(8,10);
+      e.target.value=f;
+    }
+  });
+  ph.addEventListener('paste',function(e){
+    e.preventDefault();
+    var pasted=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'');
+    ph.value=pasted;
+    ph.dispatchEvent(new Event('input'));
+  });
+}
 </script>
 
 <!-- MAX MESSENGER FLOATING BUTTON -->
-<a href="https://max.ru/join/eZNq8qnQ3VIvumr8NRqgghw4RfCFp_3rqDIHuEE7vso" target="_blank" rel="noopener" title="Мы в MAX" style="
+<a href="YOUR_MAX_CHANNEL_LINK_HERE" target="_blank" rel="noopener" title="Мы в MAX" style="
   position:fixed;bottom:28px;right:28px;z-index:9999;
   width:48px;height:48px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
