@@ -3,545 +3,640 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --red: #E8002D;
-    --red-dark: #9B0020;
-    --black: #0A0A0A;
-    --dark: #111111;
-    --dark2: #1A1A1A;
-    --gray: #2A2A2A;
-    --muted: #888;
-    --white: #F5F5F5;
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-body: 'Montserrat', sans-serif;
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: var(--font-body);
-    font-size: 15px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(10,10,10,0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(232,0,45,0.3);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 40px; height: 64px;
-  }
-  .nav-logo {
-    font-family: var(--font-display);
-    font-size: 26px;
-    letter-spacing: 2px;
-    color: var(--white);
-  }
-  .nav-logo span { color: var(--red); }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a {
-    color: var(--muted); text-decoration: none; font-size: 13px;
-    font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--red); }
-  .nav-btn {
-    background: var(--red); color: var(--white);
-    border: none; padding: 10px 22px; font-family: var(--font-body);
-    font-size: 13px; font-weight: 700; letter-spacing: 1px;
-    text-transform: uppercase; cursor: pointer;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-    transition: background 0.2s;
-  }
-  .nav-btn:hover { background: var(--red-dark); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --r:#FF1A1A;--r2:#CC0000;
+  --bg:#050505;--s1:#0F0F0F;--s2:#181818;--g1:#222;
+  --mt:#666;--wt:#F0F0F0;
+  --fd:'Anton',sans-serif;--fb:'Inter',sans-serif;--fm:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--wt);font-family:var(--fb);overflow-x:hidden}
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex; align-items: center;
-    position: relative; overflow: hidden;
-    padding: 100px 40px 60px;
-  }
-  .hero-bg {
-    position: absolute; inset: 0; z-index: 0;
-    background:
-      linear-gradient(135deg, #0A0A0A 45%, rgba(232,0,45,0.08) 100%);
-  }
-  .hero-lines {
-    position: absolute; inset: 0; z-index: 0; overflow: hidden;
-  }
-  .hero-lines::before {
-    content: '';
-    position: absolute; top: -20%; right: -5%;
-    width: 55%; height: 140%;
-    background: repeating-linear-gradient(
-      -12deg,
-      transparent, transparent 40px,
-      rgba(232,0,45,0.04) 40px, rgba(232,0,45,0.04) 41px
-    );
-  }
-  .hero-lines::after {
-    content: '';
-    position: absolute; top: 50%; right: 10%;
-    width: 2px; height: 60%;
-    background: linear-gradient(to bottom, transparent, var(--red), transparent);
-    transform: translateY(-50%);
-  }
-  .hero-content { position: relative; z-index: 1; max-width: 680px; }
-  .hero-tag {
-    display: inline-block;
-    background: rgba(232,0,45,0.15);
-    border: 1px solid rgba(232,0,45,0.4);
-    color: var(--red);
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 3px; text-transform: uppercase;
-    padding: 6px 14px; margin-bottom: 28px;
-  }
-  .hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(56px, 9vw, 100px);
-    line-height: 0.95;
-    letter-spacing: 1px;
-    color: var(--white);
-    margin-bottom: 24px;
-  }
-  .hero-title .line-red { color: var(--red); }
-  .hero-sub {
-    font-size: 15px; color: var(--muted);
-    line-height: 1.7; max-width: 480px;
-    margin-bottom: 40px;
-  }
-  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--red); color: var(--white);
-    border: none; padding: 16px 36px;
-    font-family: var(--font-body); font-size: 13px;
-    font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-    cursor: pointer;
-    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
-    transition: background 0.2s, transform 0.1s;
-    text-decoration: none; display: inline-block;
-  }
-  .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
-  .btn-secondary {
-    background: transparent; color: var(--white);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px 36px;
-    font-family: var(--font-body); font-size: 13px;
-    font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
-    cursor: pointer; transition: border-color 0.2s;
-    text-decoration: none; display: inline-block;
-  }
-  .btn-secondary:hover { border-color: var(--red); color: var(--red); }
-  .hero-stats {
-    position: relative; z-index: 1;
-    display: flex; gap: 48px; margin-top: 64px;
-    border-top: 1px solid rgba(255,255,255,0.07);
-    padding-top: 32px;
-  }
-  .stat-num {
-    font-family: var(--font-display); font-size: 36px;
-    color: var(--red); line-height: 1;
-  }
-  .stat-lbl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:60px;
+  background:rgba(5,5,5,0.97);
+  border-bottom:1px solid rgba(255,26,26,0.15);
+}
+.nlogo{display:flex;align-items:center;gap:10px}
+.nlogo-mark{
+  width:32px;height:32px;background:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-size:18px;color:#fff;
+  clip-path:polygon(0 0,100% 0,100% 75%,75% 100%,0 100%)
+}
+.nlogo-text{font-family:var(--fm);font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--wt)}
+.nlogo-text span{color:var(--r)}
+.nlinks{display:flex;align-items:center;gap:32px}
+.nlinks a{font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mt);text-decoration:none;transition:color .2s}
+.nlinks a:hover{color:var(--r)}
+.ncta{
+  font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--r);background:transparent;border:1px solid var(--r);padding:8px 20px;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.ncta:hover{background:var(--r);color:#fff}
 
-  /* SERVICES */
-  .section { padding: 96px 40px; }
-  .section-label {
-    font-size: 11px; font-weight: 700; letter-spacing: 4px;
-    text-transform: uppercase; color: var(--red);
-    margin-bottom: 16px;
-  }
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(36px, 5vw, 56px);
-    line-height: 1; letter-spacing: 1px; color: var(--white);
-    margin-bottom: 48px;
-  }
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 2px;
-  }
-  .service-card {
-    background: var(--dark2);
-    padding: 36px 28px;
-    position: relative; overflow: hidden;
-    cursor: default; transition: background 0.2s;
-  }
-  .service-card:hover { background: #1f1f1f; }
-  .service-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0;
-    width: 3px; height: 0;
-    background: var(--red);
-    transition: height 0.3s ease;
-  }
-  .service-card:hover::before { height: 100%; }
-  .service-icon {
-    width: 48px; height: 48px; margin-bottom: 20px;
-    background: rgba(232,0,45,0.1);
-    border: 1px solid rgba(232,0,45,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-  }
-  .service-title {
-    font-family: var(--font-display); font-size: 22px;
-    letter-spacing: 1px; color: var(--white);
-    margin-bottom: 10px;
-  }
-  .service-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;overflow:hidden;padding:80px 48px 60px;
+}
+.hero-grid{
+  width:100%;max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 400px;gap:60px;align-items:center;
+}
+.hero-left{position:relative;z-index:2}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--r);margin-bottom:28px;
+}
+.hero-badge::before{content:'';display:block;width:20px;height:1px;background:var(--r)}
+.hero-h1{
+  font-family:var(--fd);font-size:clamp(60px,9vw,108px);
+  line-height:.9;letter-spacing:2px;color:var(--wt);margin-bottom:8px;
+}
+.hero-h1 .stroke{-webkit-text-stroke:2px var(--r);color:transparent}
+.hero-h1 .fill{color:var(--r)}
+.hero-sub{
+  font-size:14px;color:var(--mt);line-height:1.8;max-width:480px;
+  margin:24px 0 36px;border-left:2px solid var(--r);padding-left:16px;
+}
 
-  /* WHY US */
-  .why-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1px; background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.05);
-  }
-  .why-item {
-    background: var(--black);
-    padding: 32px 24px;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.2s;
-  }
-  .why-item:hover { border-color: var(--red); }
-  .why-num {
-    font-family: var(--font-display); font-size: 48px;
-    color: rgba(232,0,45,0.2); line-height: 1; margin-bottom: 12px;
-  }
-  .why-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .why-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+/* BIG PHONE */
+.hero-phone{
+  font-family:var(--fd);
+  font-size:clamp(28px,4vw,46px);
+  letter-spacing:2px;color:var(--wt);
+  margin-bottom:32px;
+  display:flex;align-items:center;gap:14px;
+}
+.hero-phone-dot{
+  width:10px;height:10px;border-radius:50%;background:var(--r);
+  animation:pulse 1.4s ease-in-out infinite;flex-shrink:0;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,26,26,.5)}50%{box-shadow:0 0 0 8px rgba(255,26,26,0)}}
 
-  /* FORM */
-  .form-section { padding: 96px 40px; background: var(--dark); }
-  .form-wrap {
-    max-width: 640px; margin: 0 auto;
-  }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-  .form-group label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    background: var(--gray);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 0;
-    color: var(--white);
-    padding: 14px 16px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form-group input:focus,
-  .form-group textarea:focus { border-color: var(--red); }
-  .form-group textarea { resize: vertical; min-height: 100px; }
-  .form-check { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
-  .form-check input[type="checkbox"] {
-    width: 16px; height: 16px; margin-top: 2px; accent-color: var(--red); flex-shrink: 0; cursor: pointer;
-  }
-  .form-check label { font-size: 12px; color: var(--muted); line-height: 1.5; cursor: pointer; }
-  .form-check label a { color: var(--red); text-decoration: none; }
-  .form-submit {
-    width: 100%; background: var(--red); color: var(--white);
-    border: none; padding: 18px;
-    font-family: var(--font-body); font-size: 14px;
-    font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    cursor: pointer; transition: background 0.2s, transform 0.1s;
-    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
-    margin-top: 8px;
-  }
-  .form-submit:hover { background: var(--red-dark); }
-  .form-submit:active { transform: scale(0.99); }
-  .form-note { font-size: 11px; color: rgba(136,136,136,0.6); text-align: center; margin-top: 12px; }
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-red{
+  background:var(--r);color:#fff;border:none;padding:14px 32px;
+  font-family:var(--fm);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:background .15s;text-decoration:none;display:inline-block;
+}
+.btn-red:hover{background:var(--r2)}
+.btn-ghost{
+  background:transparent;color:var(--wt);border:1px solid rgba(255,255,255,0.15);
+  padding:14px 32px;font-family:var(--fm);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:border-color .2s,color .2s;text-decoration:none;display:inline-block;
+}
+.btn-ghost:hover{border-color:var(--r);color:var(--r)}
 
-  /* FOOTER */
-  footer {
-    background: var(--dark2);
-    border-top: 1px solid rgba(232,0,45,0.2);
-    padding: 48px 40px 32px;
-  }
-  .footer-grid {
-    display: grid; grid-template-columns: 2fr 1fr 1fr;
-    gap: 40px; margin-bottom: 40px;
-  }
-  .footer-logo {
-    font-family: var(--font-display); font-size: 28px;
-    letter-spacing: 2px; color: var(--white); margin-bottom: 12px;
-  }
-  .footer-logo span { color: var(--red); }
-  .footer-desc { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 300px; }
-  .footer-col h4 {
-    font-size: 11px; font-weight: 700; letter-spacing: 3px;
-    text-transform: uppercase; color: var(--red); margin-bottom: 16px;
-  }
-  .footer-col p { font-size: 13px; color: var(--muted); margin-bottom: 6px; line-height: 1.6; }
-  .footer-col a { color: var(--muted); text-decoration: none; font-size: 13px; display: block; margin-bottom: 6px; transition: color 0.2s; }
-  .footer-col a:hover { color: var(--red); }
-  .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 24px;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 12px;
-  }
-  .footer-bottom p { font-size: 12px; color: rgba(136,136,136,0.5); }
+/* hero right card */
+.hero-card{background:var(--s1);border:1px solid rgba(255,255,255,0.06);padding:28px}
+.card-label{
+  font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--mt);margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.card-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.06)}
+.card-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.04);margin-bottom:20px}
+.card-stat{background:var(--s1);padding:16px}
+.card-stat-n{font-family:var(--fd);font-size:36px;color:var(--r);line-height:1}
+.card-stat-l{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mt);margin-top:4px}
+.card-divider{height:1px;background:rgba(255,255,255,0.05);margin-bottom:16px}
+.card-phone-block{
+  background:rgba(255,26,26,0.08);border:1px solid rgba(255,26,26,0.2);
+  padding:16px;text-align:center;
+}
+.card-phone-label{font-family:var(--fm);font-size:9px;letter-spacing:3px;color:var(--mt);text-transform:uppercase;margin-bottom:6px}
+.card-phone-num{font-family:var(--fd);font-size:24px;color:var(--r);letter-spacing:1px}
 
-  /* SUCCESS */
-  .success-msg {
-    display: none; text-align: center; padding: 32px;
-    background: rgba(232,0,45,0.08); border: 1px solid rgba(232,0,45,0.3);
-  }
-  .success-msg h3 { font-family: var(--font-display); font-size: 28px; color: var(--red); margin-bottom: 8px; }
-  .success-msg p { font-size: 13px; color: var(--muted); }
+/* TICKER */
+.ticker{background:var(--r);padding:10px 0;overflow:hidden;border-top:1px solid rgba(0,0,0,.2)}
+.ticker-inner{display:flex;white-space:nowrap;animation:tick 22s linear infinite}
+.ticker-item{
+  font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:#fff;padding:0 28px;
+  display:flex;align-items:center;gap:14px;
+}
+.ticker-item::after{content:'//';opacity:.5}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-  @media (max-width: 680px) {
-    nav { padding: 0 20px; }
-    .nav-links { display: none; }
-    .hero { padding: 90px 20px 48px; }
-    .hero-stats { gap: 24px; flex-wrap: wrap; }
-    .section { padding: 64px 20px; }
-    .form-section { padding: 64px 20px; }
-    .form-row { grid-template-columns: 1fr; }
-    footer { padding: 40px 20px 24px; }
-    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-    .footer-bottom { flex-direction: column; align-items: flex-start; }
-  }
+/* PHONE BANNER */
+.phone-banner{
+  background:var(--s1);border-top:1px solid rgba(255,26,26,.1);border-bottom:1px solid rgba(255,26,26,.1);
+  padding:48px;text-align:center;
+}
+.phone-banner-label{
+  font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:4px;
+  text-transform:uppercase;color:var(--mt);margin-bottom:12px;
+}
+.phone-banner-num{
+  font-family:var(--fd);
+  font-size:clamp(48px,8vw,96px);
+  letter-spacing:4px;color:var(--wt);line-height:1;
+}
+.phone-banner-num span{color:var(--r)}
+.phone-banner-sub{
+  font-family:var(--fm);font-size:11px;letter-spacing:3px;
+  color:var(--mt);text-transform:uppercase;margin-top:12px;
+}
+
+/* SERVICES */
+.sec{padding:80px 48px;max-width:1200px;margin:0 auto}
+.sec-hd{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:44px;border-bottom:1px solid rgba(255,255,255,0.06);
+  padding-bottom:20px;gap:20px;flex-wrap:wrap;
+}
+.sec-num{font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:3px;color:var(--r);text-transform:uppercase;margin-bottom:8px}
+.sec-title{font-family:var(--fd);font-size:clamp(32px,5vw,52px);line-height:.95;letter-spacing:1px;color:var(--wt)}
+.sec-hd-right{font-size:13px;color:var(--mt);line-height:1.7;max-width:280px;text-align:right}
+
+/* KEY TYPES GRID */
+.keys-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.04)}
+.key-card{
+  background:var(--s1);padding:28px 24px;
+  position:relative;overflow:hidden;transition:background .2s;cursor:default;
+}
+.key-card:hover{background:var(--s2)}
+.key-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:var(--r);transform:scaleX(0);transform-origin:left;
+  transition:transform .3s ease;
+}
+.key-card:hover::after{transform:scaleX(1)}
+.key-ico{font-size:30px;margin-bottom:16px;display:block}
+.key-t{font-family:var(--fd);font-size:20px;letter-spacing:.5px;color:var(--wt);margin-bottom:8px;line-height:1.1}
+.key-d{font-size:12px;color:var(--mt);line-height:1.7}
+.key-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.key-tag{
+  font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:1px;
+  color:var(--r);text-transform:uppercase;
+  border:1px solid rgba(255,26,26,0.25);padding:3px 7px;
+}
+
+/* ADDITIONAL SERVICES */
+.add-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(255,255,255,0.04);margin-top:1px;
+}
+.add-card{
+  background:var(--s1);padding:24px;
+  display:flex;align-items:flex-start;gap:16px;
+  transition:background .2s;
+}
+.add-card:hover{background:var(--s2)}
+.add-ico{
+  width:40px;height:40px;flex-shrink:0;
+  border:1px solid rgba(255,26,26,0.2);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.add-t{font-size:13px;font-weight:600;color:var(--wt);margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
+.add-d{font-size:12px;color:var(--mt);line-height:1.6}
+
+/* WHY */
+.why-wrap{background:var(--s1);padding:80px 48px}
+.why-inner{max-width:1200px;margin:0 auto}
+.why-list{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,0.04);margin-top:44px}
+.why-item{background:var(--bg);padding:32px 28px;display:flex;gap:20px;align-items:flex-start;transition:background .2s}
+.why-item:hover{background:var(--s1)}
+.why-num-c{
+  width:40px;height:40px;flex-shrink:0;
+  border:1px solid rgba(255,26,26,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fm);font-size:11px;font-weight:700;color:var(--r);
+}
+.why-t{font-size:13px;font-weight:600;color:var(--wt);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.why-d{font-size:12px;color:var(--mt);line-height:1.7}
+
+/* FORM */
+.form-outer{padding:80px 48px}
+.form-inner{max-width:1200px;margin:0 auto}
+.form-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.form-info-title{font-family:var(--fd);font-size:clamp(32px,4vw,52px);line-height:.95;color:var(--wt);margin-bottom:16px}
+.form-info-title span{color:var(--r)}
+.form-info-text{font-size:13px;color:var(--mt);line-height:1.8;margin-bottom:28px}
+
+/* BIG PHONE in form col */
+.form-phone-big{
+  background:rgba(255,26,26,0.06);border:1px solid rgba(255,26,26,0.2);
+  padding:20px 24px;margin-bottom:20px;
+}
+.form-phone-big-label{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:3px;color:var(--mt);text-transform:uppercase;margin-bottom:6px}
+.form-phone-big-num{font-family:var(--fd);font-size:clamp(22px,3vw,36px);color:var(--r);letter-spacing:2px;line-height:1}
+
+.ci{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px;color:var(--wt)}
+.ci-lbl{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:2px;color:var(--mt);text-transform:uppercase;width:76px;flex-shrink:0}
+
+.fgroup{margin-bottom:14px}
+.fgroup label{display:block;font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mt);margin-bottom:7px}
+.fgroup input,.fgroup textarea,.fgroup select{
+  width:100%;background:#111;border:1px solid rgba(255,255,255,0.08);
+  border-bottom:1px solid rgba(255,255,255,0.2);
+  color:var(--wt);padding:13px 15px;
+  font-family:var(--fb);font-size:14px;outline:none;
+  transition:border-color .2s;border-radius:0;
+}
+.fgroup input:focus,.fgroup textarea:focus{border-color:var(--r)}
+.fgroup textarea{resize:vertical;min-height:80px}
+.fgroup select option{background:#111}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fcheck{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.fcheck input[type="checkbox"]{width:15px;height:15px;margin-top:2px;flex-shrink:0;accent-color:var(--r);cursor:pointer}
+.fcheck label{font-size:11px;color:var(--mt);line-height:1.5;cursor:pointer}
+.fcheck label a{color:var(--r);text-decoration:none}
+.fsubmit{
+  width:100%;background:var(--r);color:#fff;border:none;
+  padding:16px;font-family:var(--fm);font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  cursor:pointer;transition:background .15s;margin-top:6px;
+}
+.fsubmit:hover{background:var(--r2)}
+.fnote{font-size:10px;color:rgba(102,102,102,.6);text-align:center;margin-top:8px;font-family:var(--fm)}
+.success-box{display:none;text-align:center;padding:36px;border:1px solid rgba(255,26,26,.3);background:rgba(255,26,26,.05)}
+.success-box h3{font-family:var(--fd);font-size:32px;color:var(--r);margin-bottom:8px}
+.success-box p{font-size:13px;color:var(--mt)}
+
+footer{background:#000;border-top:1px solid rgba(255,26,26,0.15);padding:44px 48px 24px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:36px}
+.fl-logo{font-family:var(--fd);font-size:28px;letter-spacing:2px;color:var(--wt);margin-bottom:8px}
+.fl-logo em{color:var(--r);font-style:normal}
+.fl-desc{font-size:13px;color:var(--mt);line-height:1.7;max-width:260px}
+.fc h4{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:3px;color:var(--r);text-transform:uppercase;margin-bottom:12px}
+.fc p{font-size:13px;color:var(--mt);margin-bottom:5px;line-height:1.6}
+.fc a{font-size:12px;color:var(--mt);text-decoration:none;display:block;margin-bottom:5px;font-family:var(--fm);transition:color .2s}
+.fc a:hover{color:var(--r)}
+.footer-bot{border-top:1px solid rgba(255,255,255,0.04);padding-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-bot p{font-family:var(--fm);font-size:10px;color:rgba(102,102,102,.5);letter-spacing:1px}
+
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .keys-grid{grid-template-columns:1fr 1fr}
+  .add-grid{grid-template-columns:1fr}
+  .why-list{grid-template-columns:1fr}
+  .form-layout{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  nav{padding:0 20px}
+  .nlinks{display:none}
+  .hero{padding:80px 20px 48px}
+  .sec{padding:56px 20px}
+  .why-wrap{padding:56px 20px}
+  .form-outer{padding:56px 20px}
+  footer{padding:36px 20px 20px}
+  .keys-grid{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  .phone-banner{padding:32px 20px}
+  .sec-hd-right{text-align:left}
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">AUTO<span>ГАРАЖ</span></div>
-  <div class="nav-links">
+  <div class="nlogo">
+    <div class="nlogo-mark">K</div>
+    <div class="nlogo-text">МАСТЕР<span>КЛЮЧЕЙ</span></div>
+  </div>
+  <div class="nlinks">
     <a href="#services">Услуги</a>
     <a href="#why">О нас</a>
-    <a href="#lead-form">Контакты</a>
+    <a href="#form">Заявка</a>
   </div>
-  <button class="nav-btn" onclick="document.getElementById('lead-form').scrollIntoView({behavior:'smooth'})">Оставить заявку</button>
+  <button class="ncta" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})">Записаться</button>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-lines"></div>
-  <div style="width:100%; max-width:1200px; margin:0 auto;">
-    <div class="hero-content">
-      <div class="hero-tag">Профессиональный автосервис</div>
-      <h1 class="hero-title">
-        АВТО<br>
-        <span class="line-red">ГАРАЖ</span><br>
-        СЕРВИС
+  <div style="position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-family:var(--fd);font-size:280px;line-height:1;color:rgba(255,26,26,0.03);z-index:0;pointer-events:none;letter-spacing:-8px">KEY</div>
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-badge">Изготовление ключей любого типа</div>
+      <h1 class="hero-h1">
+        <span class="stroke">МАСТЕР</span><br>
+        <span class="fill">КЛЮЧЕЙ</span>
       </h1>
-      <p class="hero-sub">Продажа автомобилей, изготовление ключей и чип-тюнинг. Качественный ремонт и диагностика — всё под одной крышей.</p>
-      <div class="hero-btns">
-        <a class="btn-primary" href="#lead-form">Оставить заявку</a>
-        <a class="btn-secondary" href="#services">Наши услуги</a>
+      <p class="hero-sub">Авто, дом, домофон, катер, мотоцикл — любые ключи за 15 минут. Диагностика и вскрытие замков на месте.</p>
+      <div class="hero-phone">
+        <div class="hero-phone-dot"></div>
+        +7-987-444-98-48
+      </div>
+      <div class="hero-actions">
+        <a class="btn-red" href="#form">Оставить заявку</a>
+        <a class="btn-ghost" href="#services">Наши услуги</a>
       </div>
     </div>
-    <div class="hero-stats">
-      <div>
-        <div class="stat-num">500+</div>
-        <div class="stat-lbl">Довольных клиентов</div>
-      </div>
-      <div>
-        <div class="stat-num">5 лет</div>
-        <div class="stat-lbl">На рынке</div>
-      </div>
-      <div>
-        <div class="stat-num">24/7</div>
-        <div class="stat-lbl">Поддержка</div>
-      </div>
-      <div>
-        <div class="stat-num">100%</div>
-        <div class="stat-lbl">Гарантия качества</div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="card-label">Статистика</div>
+        <div class="card-stat-row">
+          <div class="card-stat"><div class="card-stat-n">500+</div><div class="card-stat-l">Клиентов</div></div>
+          <div class="card-stat"><div class="card-stat-n">5 лет</div><div class="card-stat-l">На рынке</div></div>
+          <div class="card-stat"><div class="card-stat-n">15 мин</div><div class="card-stat-l">Изготовление</div></div>
+          <div class="card-stat"><div class="card-stat-n">24/7</div><div class="card-stat-l">Поддержка</div></div>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-phone-block">
+          <div class="card-phone-label">Звоните прямо сейчас</div>
+          <div class="card-phone-num">+7-987-444-98-48</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item">Ключи для авто</div>
+    <div class="ticker-item">Ключи для дома</div>
+    <div class="ticker-item">Ключи-домофоны</div>
+    <div class="ticker-item">Ключи для катера</div>
+    <div class="ticker-item">Ключи для мотоцикла</div>
+    <div class="ticker-item">Вскрытие замков</div>
+    <div class="ticker-item">Диагностика</div>
+    <div class="ticker-item">Ключи для авто</div>
+    <div class="ticker-item">Ключи для дома</div>
+    <div class="ticker-item">Ключи-домофоны</div>
+    <div class="ticker-item">Ключи для катера</div>
+    <div class="ticker-item">Ключи для мотоцикла</div>
+    <div class="ticker-item">Вскрытие замков</div>
+    <div class="ticker-item">Диагностика</div>
+  </div>
+</div>
+
+<!-- PHONE BANNER -->
+<div class="phone-banner">
+  <div class="phone-banner-label">Телефон для связи</div>
+  <div class="phone-banner-num"><span>+7-987-</span>444-98-48</div>
+  <div class="phone-banner-sub">Работаем без выходных · Выезд на место · Быстро и надёжно</div>
+</div>
 
 <!-- SERVICES -->
-<section class="section" id="services">
-  <div style="max-width:1200px; margin:0 auto;">
-    <div class="section-label">Что мы делаем</div>
-    <h2 class="section-title">НАШИ УСЛУГИ</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">🚗</div>
-        <div class="service-title">ПРОДАЖА АВТО</div>
-        <p class="service-desc">Широкий выбор автомобилей с пробегом. Полная проверка, юридическая чистота, гарантия на каждый автомобиль.</p>
+<section id="services" style="background:var(--bg)">
+  <div class="sec">
+    <div class="sec-hd">
+      <div>
+        <div class="sec-num">// 01 — Услуги</div>
+        <div class="sec-title">ВСЕ ТИПЫ<br>КЛЮЧЕЙ</div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">🔑</div>
-        <div class="service-title">ИЗГОТОВЛЕНИЕ КЛЮЧЕЙ</div>
-        <p class="service-desc">Дубликаты ключей, смарт-ключи, чип-ключи. Программирование любых автомобилей. Быстро и надёжно.</p>
+      <div class="sec-hd-right">Изготавливаем дубликаты и оригиналы любых ключей. Современное оборудование — быстро и точно.</div>
+    </div>
+
+    <div class="keys-grid">
+      <div class="key-card">
+        <span class="key-ico">🚗</span>
+        <div class="key-t">АВТО­МОБИЛЬНЫЕ</div>
+        <p class="key-d">Дубликаты, чип-ключи, смарт-ключи для всех марок. Программирование иммобилайзера. Утерянные ключи по замку.</p>
+        <div class="key-tags">
+          <span class="key-tag">Легковые</span>
+          <span class="key-tag">Грузовые</span>
+          <span class="key-tag">Смарт-ключ</span>
+          <span class="key-tag">Чип</span>
+        </div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">🔧</div>
-        <div class="service-title">ДИАГНОСТИКА</div>
-        <p class="service-desc">Компьютерная диагностика всех систем автомобиля. Точное определение неисправностей за 30 минут.</p>
+      <div class="key-card">
+        <span class="key-ico">🏠</span>
+        <div class="key-t">ДОМАШНИЕ</div>
+        <p class="key-d">Дубликаты ключей к любым замкам: входные двери, гаражи, подвалы, сейфы, почтовые ящики.</p>
+        <div class="key-tags">
+          <span class="key-tag">Входная дверь</span>
+          <span class="key-tag">Гараж</span>
+          <span class="key-tag">Сейф</span>
+          <span class="key-tag">Ящик</span>
+        </div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">⚡</div>
-        <div class="service-title">ЧИП-ТЮНИНГ</div>
-        <p class="service-desc">Перепрошивка ЭБУ для увеличения мощности и экономии топлива. Официальное программное обеспечение.</p>
+      <div class="key-card">
+        <span class="key-ico">📟</span>
+        <div class="key-t">ДОМОФОНЫ</div>
+        <p class="key-d">Копирование ключей-таблеток, магнитных карт и RFID-брелоков для домофонов и систем контроля доступа.</p>
+        <div class="key-tags">
+          <span class="key-tag">Таблетка</span>
+          <span class="key-tag">Карта</span>
+          <span class="key-tag">RFID</span>
+          <span class="key-tag">Брелок</span>
+        </div>
+      </div>
+      <div class="key-card">
+        <span class="key-ico">⛵</span>
+        <div class="key-t">КАТЕРА И ЯХТЫ</div>
+        <p class="key-d">Изготовление ключей для лодочных моторов, катеров и яхт. Работаем с Yamaha, Mercury, Honda и другими.</p>
+        <div class="key-tags">
+          <span class="key-tag">Yamaha</span>
+          <span class="key-tag">Mercury</span>
+          <span class="key-tag">Honda</span>
+          <span class="key-tag">Все марки</span>
+        </div>
+      </div>
+      <div class="key-card">
+        <span class="key-ico">🏍️</span>
+        <div class="key-t">МОТО­ЦИКЛЫ И СКУТЕРЫ</div>
+        <p class="key-d">Дубликаты и утерянные ключи для любых мотоциклов и скутеров. Программирование иммобилайзеров.</p>
+        <div class="key-tags">
+          <span class="key-tag">Мотоцикл</span>
+          <span class="key-tag">Скутер</span>
+          <span class="key-tag">Мопед</span>
+          <span class="key-tag">ATV</span>
+        </div>
+      </div>
+      <div class="key-card">
+        <span class="key-ico">🚜</span>
+        <div class="key-t">СПЕЦ. ТЕХНИКА</div>
+        <p class="key-d">Ключи для тракторов, экскаваторов, погрузчиков и другой спецтехники. Выезд на объект.</p>
+        <div class="key-tags">
+          <span class="key-tag">Трактор</span>
+          <span class="key-tag">Экскаватор</span>
+          <span class="key-tag">Погрузчик</span>
+          <span class="key-tag">Выезд</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-grid">
+      <div class="add-card">
+        <div class="add-ico">🔓</div>
+        <div>
+          <div class="add-t">Вскрытие замков</div>
+          <p class="add-d">Аварийное вскрытие автомобилей, квартир и офисов без повреждений. Выезд в течение 30 минут.</p>
+        </div>
+      </div>
+      <div class="add-card">
+        <div class="add-ico">🔧</div>
+        <div>
+          <div class="add-t">Диагностика</div>
+          <p class="add-d">Компьютерная диагностика автомобильных систем. Точное определение неисправностей за 30 минут.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WHY US -->
-<section class="section" id="why" style="background: var(--dark); padding-top: 0; padding-bottom: 96px;">
-  <div style="max-width:1200px; margin:0 auto;">
-    <div class="section-label">Почему мы</div>
-    <h2 class="section-title">НАШИ ПРЕИМУЩЕСТВА</h2>
-    <div class="why-grid">
+<!-- WHY -->
+<div class="why-wrap" id="why">
+  <div class="why-inner">
+    <div class="sec-hd">
+      <div>
+        <div class="sec-num">// 02 — Преимущества</div>
+        <div class="sec-title">ПОЧЕМУ<br>МЫ</div>
+      </div>
+    </div>
+    <div class="why-list">
       <div class="why-item">
-        <div class="why-num">01</div>
-        <div class="why-title">Опытные мастера</div>
-        <p class="why-text">Сертифицированные специалисты с опытом работы от 10 лет. Каждый мастер — профи в своей области.</p>
+        <div class="why-num-c">01</div>
+        <div>
+          <div class="why-t">Любые ключи</div>
+          <p class="why-d">Авто, дом, домофон, катер, мотоцикл, спецтехника — делаем всё. Одно место для всех ключей.</p>
+        </div>
       </div>
       <div class="why-item">
-        <div class="why-num">02</div>
-        <div class="why-title">Гарантия на работы</div>
-        <p class="why-text">Официальная гарантия на все виды работ. Используем только оригинальные запчасти и расходники.</p>
+        <div class="why-num-c">02</div>
+        <div>
+          <div class="why-t">Готово за 15 минут</div>
+          <p class="why-d">Большинство дубликатов изготавливается прямо при вас. Без ожидания и лишних визитов.</p>
+        </div>
       </div>
       <div class="why-item">
-        <div class="why-num">03</div>
-        <div class="why-title">Честные цены</div>
-        <p class="why-text">Фиксированные цены без скрытых наценок. Смета согласовывается до начала работ.</p>
+        <div class="why-num-c">03</div>
+        <div>
+          <div class="why-t">Выезд на место</div>
+          <p class="why-d">Не можете приехать? Приедем к вам. Работаем по городу и области без доп. наценки.</p>
+        </div>
       </div>
       <div class="why-item">
-        <div class="why-num">04</div>
-        <div class="why-title">Быстрые сроки</div>
-        <p class="why-text">Большинство работ выполняются день в день. Не задержим ваш автомобиль дольше необходимого.</p>
+        <div class="why-num-c">04</div>
+        <div>
+          <div class="why-t">Честные цены</div>
+          <p class="why-d">Стоимость озвучивается до начала работ. Никаких скрытых платежей и неожиданных доплат.</p>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- LEAD FORM -->
-<section class="form-section" id="lead-form">
-  <div class="form-wrap">
-    <div class="section-label" style="text-align:center">Записаться</div>
-    <h2 class="section-title" style="text-align:center; margin-bottom:36px;">ОСТАВИТЬ ЗАЯВКУ</h2>
+<!-- FORM -->
+<section id="form">
+  <div class="form-outer">
+    <div class="form-inner">
+      <div class="form-layout">
+        <div>
+          <div class="sec-num">// 03 — Заявка</div>
+          <div class="form-info-title">ЗАПИШИТЕСЬ<br><span>СЕЙЧАС</span></div>
+          <p class="form-info-text">Оставьте заявку — перезвоним в течение 15 минут и согласуем удобное время или выезд.</p>
 
-    <div id="form-container">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="f-name">ФИО *</label>
-          <input type="text" id="f-name" placeholder="Иванов Иван Иванович" required>
+          <div class="form-phone-big">
+            <div class="form-phone-big-label">Или позвоните напрямую</div>
+            <div class="form-phone-big-num">+7-987-444-98-48</div>
+          </div>
+
+          <div class="ci"><span class="ci-lbl">Адрес</span>г. Москва, ул. Примерная, 1</div>
+          <div class="ci"><span class="ci-lbl">Телефон</span>+7-987-444-98-48</div>
+          <div class="ci"><span class="ci-lbl">Пн–Пт</span>9:00 – 20:00</div>
+          <div class="ci"><span class="ci-lbl">Суббота</span>10:00 – 18:00</div>
+          <div class="ci"><span class="ci-lbl">Выезд</span>По городу и области</div>
         </div>
-        <div class="form-group">
-          <label for="f-phone">Телефон *</label>
-          <input type="tel" id="f-phone" placeholder="+7 (___) ___-__-__" required>
+        <div>
+          <div id="form-container">
+            <div class="frow">
+              <div class="fgroup"><label>ФИО *</label><input type="text" id="f-name" placeholder="Иванов Иван"></div>
+              <div class="fgroup"><label>Телефон *</label><input type="tel" id="f-phone" placeholder="+7 (___) ___-__-__"></div>
+            </div>
+            <div class="fgroup">
+              <label>Тип ключа / услуга</label>
+              <select id="f-service">
+                <option value="">— выберите тип —</option>
+                <option>Автомобильный ключ</option>
+                <option>Домашний ключ</option>
+                <option>Ключ-домофон / карта</option>
+                <option>Ключ для катера / яхты</option>
+                <option>Ключ для мотоцикла / скутера</option>
+                <option>Ключ для спецтехники</option>
+                <option>Вскрытие замка</option>
+                <option>Диагностика</option>
+                <option>Другое</option>
+              </select>
+            </div>
+            <div class="fgroup"><label>Марка / модель (если авто, катер и т.д.)</label><input type="text" id="f-car" placeholder="Например: Toyota Camry 2020"></div>
+            <div class="fgroup"><label>Комментарий</label><textarea id="f-comment" placeholder="Опишите ситуацию..."></textarea></div>
+            <div class="fcheck">
+              <input type="checkbox" id="c1">
+              <label for="c1">Согласен на <a href="#">обработку персональных данных</a> согласно ФЗ-152 и <a href="#">политике конфиденциальности</a> *</label>
+            </div>
+            <div class="fcheck">
+              <input type="checkbox" id="c2">
+              <label for="c2">Согласен получать информацию об акциях (ФЗ-38)</label>
+            </div>
+            <button class="fsubmit" onclick="handleSubmit()">Отправить заявку</button>
+            <p class="fnote">* Обязательные поля · Данные защищены по ФЗ-152</p>
+          </div>
+          <div class="success-box" id="success-box">
+            <h3>ПРИНЯТО!</h3>
+            <p>Перезвоним на +7-987-444-98-48 в течение 15 минут. Спасибо!</p>
+          </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="f-car">Марка и модель авто</label>
-        <input type="text" id="f-car" placeholder="Например: Toyota Camry 2020">
-      </div>
-      <div class="form-group">
-        <label for="f-service">Услуга</label>
-        <select id="f-service">
-          <option value="">— выберите услугу —</option>
-          <option>Продажа авто</option>
-          <option>Изготовление ключей</option>
-          <option>Диагностика</option>
-          <option>Чип-тюнинг</option>
-          <option>Другое</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="f-comment">Комментарий</label>
-        <textarea id="f-comment" placeholder="Опишите вашу ситуацию или вопрос..."></textarea>
-      </div>
-
-      <div class="form-check">
-        <input type="checkbox" id="consent-pd" required>
-        <label for="consent-pd">Я даю согласие на <a href="#">обработку персональных данных</a> в соответствии с ФЗ-152 и ознакомлен с <a href="#">политикой конфиденциальности</a> *</label>
-      </div>
-      <div class="form-check">
-        <input type="checkbox" id="consent-ads">
-        <label for="consent-ads">Согласен получать информацию об акциях и специальных предложениях (ФЗ-38)</label>
-      </div>
-
-      <button class="form-submit" id="submit-btn" onclick="handleSubmit()">Отправить заявку →</button>
-      <p class="form-note">* Обязательные поля. Данные защищены и не передаются третьим лицам.</p>
-    </div>
-
-    <div class="success-msg" id="success-msg">
-      <h3>ЗАЯВКА ПРИНЯТА!</h3>
-      <p>Мы свяжемся с вами в ближайшее время. Спасибо за обращение!</p>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div style="max-width:1200px; margin:0 auto;">
-    <div class="footer-grid">
+  <div class="footer-inner">
+    <div class="footer-top">
       <div>
-        <div class="footer-logo">AUTO<span>ГАРАЖ</span></div>
-        <p class="footer-desc">Профессиональный автосервис. Продажа авто, изготовление ключей, диагностика и тюнинг.</p>
+        <div class="fl-logo">МАСТЕР<em>КЛЮЧЕЙ</em></div>
+        <p class="fl-desc">Изготовление ключей любого типа. Авто, дом, домофон, катер, мотоцикл и спецтехника.</p>
       </div>
-      <div class="footer-col">
+      <div class="fc">
         <h4>Контакты</h4>
-        <p>📍 г. Москва, ул. Примерная, 1</p>
-        <p>📞 +7 (000) 000-00-00</p>
-        <p>✉️ info@autogarazh.ru</p>
+        <p>г. Москва, ул. Примерная, 1</p>
+        <p>+7-987-444-98-48</p>
+        <p>info@masterkluchey.ru</p>
       </div>
-      <div class="footer-col">
-        <h4>Режим работы</h4>
-        <p>Пн–Пт: 9:00 – 20:00</p>
-        <p>Сб: 10:00 – 18:00</p>
-        <p>Вс: выходной</p>
-        <br>
+      <div class="fc">
+        <h4>Документы</h4>
         <a href="#">Политика конфиденциальности</a>
         <a href="#">Согласие на обработку ПД</a>
+        <a href="#">Публичная оферта</a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>© 2024 АвтоГараж. Все права защищены.</p>
-      <p>Данные хранятся на серверах в РФ согласно ФЗ-152</p>
+    <div class="footer-bot">
+      <p>© 2024 МАСТЕР КЛЮЧЕЙ — ВСЕ ПРАВА ЗАЩИЩЕНЫ</p>
+      <p>Данные хранятся в РФ · ФЗ-152</p>
     </div>
   </div>
 </footer>
 
 <script>
-function handleSubmit() {
-  var name = document.getElementById('f-name').value.trim();
-  var phone = document.getElementById('f-phone').value.trim();
-  var consent = document.getElementById('consent-pd').checked;
-  if (!name || !phone || !consent) {
-    alert('Заполните обязательные поля и подтвердите согласие на обработку данных.');
-    return;
+function handleSubmit(){
+  var n=document.getElementById('f-name').value.trim();
+  var p=document.getElementById('f-phone').value.trim();
+  var c=document.getElementById('c1').checked;
+  if(!n||!p||!c){alert('Заполните обязательные поля и подтвердите согласие.');return;}
+  document.getElementById('form-container').style.display='none';
+  document.getElementById('success-box').style.display='block';
+}
+var ph=document.getElementById('f-phone');
+if(ph){ph.addEventListener('input',function(e){
+  var v=e.target.value.replace(/\D/g,'');
+  if(v.length>0){
+    if(v[0]==='7'||v[0]==='8')v=v.slice(1);
+    var f='+7';
+    if(v.length>0)f+=' ('+v.slice(0,3);
+    if(v.length>=3)f+=') '+v.slice(3,6);
+    if(v.length>=6)f+='-'+v.slice(6,8);
+    if(v.length>=8)f+='-'+v.slice(8,10);
+    e.target.value=f;
   }
-  document.getElementById('form-container').style.display = 'none';
-  var s = document.getElementById('success-msg');
-  s.style.display = 'block';
-}
-var phoneInput = document.getElementById('f-phone');
-if (phoneInput) {
-  phoneInput.addEventListener('input', function(e) {
-    var v = e.target.value.replace(/\D/g,'');
-    if (v.length > 0) {
-      if (v[0] === '7' || v[0] === '8') v = v.slice(1);
-      var f = '+7';
-      if (v.length > 0) f += ' (' + v.slice(0,3);
-      if (v.length >= 3) f += ') ' + v.slice(3,6);
-      if (v.length >= 6) f += '-' + v.slice(6,8);
-      if (v.length >= 8) f += '-' + v.slice(8,10);
-      e.target.value = f;
-    }
-  });
-}
+});}
 </script>
 </body>
 </html>
