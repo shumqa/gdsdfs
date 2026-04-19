@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #E8002D;
+    --red-dark: #9B0020;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --gray: #2A2A2A;
+    --muted: #888;
+    --white: #F5F5F5;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Montserrat', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(232,0,45,0.3);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--red); }
+  .nav-btn {
+    background: var(--red); color: var(--white);
+    border: none; padding: 10px 22px; font-family: var(--font-body);
+    font-size: 13px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; cursor: pointer;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s;
+  }
+  .nav-btn:hover { background: var(--red-dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 100px 40px 60px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      linear-gradient(135deg, #0A0A0A 45%, rgba(232,0,45,0.08) 100%);
+  }
+  .hero-lines {
+    position: absolute; inset: 0; z-index: 0; overflow: hidden;
+  }
+  .hero-lines::before {
+    content: '';
+    position: absolute; top: -20%; right: -5%;
+    width: 55%; height: 140%;
+    background: repeating-linear-gradient(
+      -12deg,
+      transparent, transparent 40px,
+      rgba(232,0,45,0.04) 40px, rgba(232,0,45,0.04) 41px
+    );
+  }
+  .hero-lines::after {
+    content: '';
+    position: absolute; top: 50%; right: 10%;
+    width: 2px; height: 60%;
+    background: linear-gradient(to bottom, transparent, var(--red), transparent);
+    transform: translateY(-50%);
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 680px; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(232,0,45,0.15);
+    border: 1px solid rgba(232,0,45,0.4);
+    color: var(--red);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    padding: 6px 14px; margin-bottom: 28px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 9vw, 100px);
+    line-height: 0.95;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .hero-title .line-red { color: var(--red); }
+  .hero-sub {
+    font-size: 15px; color: var(--muted);
+    line-height: 1.7; max-width: 480px;
+    margin-bottom: 40px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--red); color: var(--white);
+    border: none; padding: 16px 36px;
+    font-family: var(--font-body); font-size: 13px;
+    font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: background 0.2s, transform 0.1s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 16px 36px;
+    font-family: var(--font-body); font-size: 13px;
+    font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: border-color 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--red); color: var(--red); }
+  .hero-stats {
+    position: relative; z-index: 1;
+    display: flex; gap: 48px; margin-top: 64px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 32px;
+  }
+  .stat-num {
+    font-family: var(--font-display); font-size: 36px;
+    color: var(--red); line-height: 1;
+  }
+  .stat-lbl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  /* SERVICES */
+  .section { padding: 96px 40px; }
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--red);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1; letter-spacing: 1px; color: var(--white);
+    margin-bottom: 48px;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px;
+  }
+  .service-card {
+    background: var(--dark2);
+    padding: 36px 28px;
+    position: relative; overflow: hidden;
+    cursor: default; transition: background 0.2s;
+  }
+  .service-card:hover { background: #1f1f1f; }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--red);
+    transition: height 0.3s ease;
+  }
+  .service-card:hover::before { height: 100%; }
+  .service-icon {
+    width: 48px; height: 48px; margin-bottom: 20px;
+    background: rgba(232,0,45,0.1);
+    border: 1px solid rgba(232,0,45,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .service-title {
+    font-family: var(--font-display); font-size: 22px;
+    letter-spacing: 1px; color: var(--white);
+    margin-bottom: 10px;
+  }
+  .service-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* WHY US */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .why-item {
+    background: var(--black);
+    padding: 32px 24px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .why-item:hover { border-color: var(--red); }
+  .why-num {
+    font-family: var(--font-display); font-size: 48px;
+    color: rgba(232,0,45,0.2); line-height: 1; margin-bottom: 12px;
+  }
+  .why-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .why-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* FORM */
+  .form-section { padding: 96px 40px; background: var(--dark); }
+  .form-wrap {
+    max-width: 640px; margin: 0 auto;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .form-group label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: var(--gray);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0;
+    color: var(--white);
+    padding: 14px 16px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--red); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-check { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .form-check input[type="checkbox"] {
+    width: 16px; height: 16px; margin-top: 2px; accent-color: var(--red); flex-shrink: 0; cursor: pointer;
+  }
+  .form-check label { font-size: 12px; color: var(--muted); line-height: 1.5; cursor: pointer; }
+  .form-check label a { color: var(--red); text-decoration: none; }
+  .form-submit {
+    width: 100%; background: var(--red); color: var(--white);
+    border: none; padding: 18px;
+    font-family: var(--font-body); font-size: 14px;
+    font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s, transform 0.1s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--red-dark); }
+  .form-submit:active { transform: scale(0.99); }
+  .form-note { font-size: 11px; color: rgba(136,136,136,0.6); text-align: center; margin-top: 12px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark2);
+    border-top: 1px solid rgba(232,0,45,0.2);
+    padding: 48px 40px 32px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px; margin-bottom: 40px;
+  }
+  .footer-logo {
+    font-family: var(--font-display); font-size: 28px;
+    letter-spacing: 2px; color: var(--white); margin-bottom: 12px;
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-desc { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 300px; }
+  .footer-col h4 {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+  }
+  .footer-col p { font-size: 13px; color: var(--muted); margin-bottom: 6px; line-height: 1.6; }
+  .footer-col a { color: var(--muted); text-decoration: none; font-size: 13px; display: block; margin-bottom: 6px; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--red); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-bottom p { font-size: 12px; color: rgba(136,136,136,0.5); }
+
+  /* SUCCESS */
+  .success-msg {
+    display: none; text-align: center; padding: 32px;
+    background: rgba(232,0,45,0.08); border: 1px solid rgba(232,0,45,0.3);
+  }
+  .success-msg h3 { font-family: var(--font-display); font-size: 28px; color: var(--red); margin-bottom: 8px; }
+  .success-msg p { font-size: 13px; color: var(--muted); }
+
+  @media (max-width: 680px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 90px 20px 48px; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+    .section { padding: 64px 20px; }
+    .form-section { padding: 64px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { padding: 40px 20px 24px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">AUTO<span>ГАРАЖ</span></div>
+  <div class="nav-links">
+    <a href="#services">Услуги</a>
+    <a href="#why">О нас</a>
+    <a href="#lead-form">Контакты</a>
+  </div>
+  <button class="nav-btn" onclick="document.getElementById('lead-form').scrollIntoView({behavior:'smooth'})">Оставить заявку</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div style="width:100%; max-width:1200px; margin:0 auto;">
+    <div class="hero-content">
+      <div class="hero-tag">Профессиональный автосервис</div>
+      <h1 class="hero-title">
+        АВТО<br>
+        <span class="line-red">ГАРАЖ</span><br>
+        СЕРВИС
+      </h1>
+      <p class="hero-sub">Продажа автомобилей, изготовление ключей и чип-тюнинг. Качественный ремонт и диагностика — всё под одной крышей.</p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="#lead-form">Оставить заявку</a>
+        <a class="btn-secondary" href="#services">Наши услуги</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">500+</div>
+        <div class="stat-lbl">Довольных клиентов</div>
+      </div>
+      <div>
+        <div class="stat-num">5 лет</div>
+        <div class="stat-lbl">На рынке</div>
+      </div>
+      <div>
+        <div class="stat-num">24/7</div>
+        <div class="stat-lbl">Поддержка</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-lbl">Гарантия качества</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="section-label">Что мы делаем</div>
+    <h2 class="section-title">НАШИ УСЛУГИ</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🚗</div>
+        <div class="service-title">ПРОДАЖА АВТО</div>
+        <p class="service-desc">Широкий выбор автомобилей с пробегом. Полная проверка, юридическая чистота, гарантия на каждый автомобиль.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔑</div>
+        <div class="service-title">ИЗГОТОВЛЕНИЕ КЛЮЧЕЙ</div>
+        <p class="service-desc">Дубликаты ключей, смарт-ключи, чип-ключи. Программирование любых автомобилей. Быстро и надёжно.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔧</div>
+        <div class="service-title">ДИАГНОСТИКА</div>
+        <p class="service-desc">Компьютерная диагностика всех систем автомобиля. Точное определение неисправностей за 30 минут.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚡</div>
+        <div class="service-title">ЧИП-ТЮНИНГ</div>
+        <p class="service-desc">Перепрошивка ЭБУ для увеличения мощности и экономии топлива. Официальное программное обеспечение.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section" id="why" style="background: var(--dark); padding-top: 0; padding-bottom: 96px;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="section-label">Почему мы</div>
+    <h2 class="section-title">НАШИ ПРЕИМУЩЕСТВА</h2>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <div class="why-title">Опытные мастера</div>
+        <p class="why-text">Сертифицированные специалисты с опытом работы от 10 лет. Каждый мастер — профи в своей области.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <div class="why-title">Гарантия на работы</div>
+        <p class="why-text">Официальная гарантия на все виды работ. Используем только оригинальные запчасти и расходники.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <div class="why-title">Честные цены</div>
+        <p class="why-text">Фиксированные цены без скрытых наценок. Смета согласовывается до начала работ.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <div class="why-title">Быстрые сроки</div>
+        <p class="why-text">Большинство работ выполняются день в день. Не задержим ваш автомобиль дольше необходимого.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD FORM -->
+<section class="form-section" id="lead-form">
+  <div class="form-wrap">
+    <div class="section-label" style="text-align:center">Записаться</div>
+    <h2 class="section-title" style="text-align:center; margin-bottom:36px;">ОСТАВИТЬ ЗАЯВКУ</h2>
+
+    <div id="form-container">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-name">ФИО *</label>
+          <input type="text" id="f-name" placeholder="Иванов Иван Иванович" required>
+        </div>
+        <div class="form-group">
+          <label for="f-phone">Телефон *</label>
+          <input type="tel" id="f-phone" placeholder="+7 (___) ___-__-__" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="f-car">Марка и модель авто</label>
+        <input type="text" id="f-car" placeholder="Например: Toyota Camry 2020">
+      </div>
+      <div class="form-group">
+        <label for="f-service">Услуга</label>
+        <select id="f-service">
+          <option value="">— выберите услугу —</option>
+          <option>Продажа авто</option>
+          <option>Изготовление ключей</option>
+          <option>Диагностика</option>
+          <option>Чип-тюнинг</option>
+          <option>Другое</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="f-comment">Комментарий</label>
+        <textarea id="f-comment" placeholder="Опишите вашу ситуацию или вопрос..."></textarea>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" id="consent-pd" required>
+        <label for="consent-pd">Я даю согласие на <a href="#">обработку персональных данных</a> в соответствии с ФЗ-152 и ознакомлен с <a href="#">политикой конфиденциальности</a> *</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="consent-ads">
+        <label for="consent-ads">Согласен получать информацию об акциях и специальных предложениях (ФЗ-38)</label>
+      </div>
+
+      <button class="form-submit" id="submit-btn" onclick="handleSubmit()">Отправить заявку →</button>
+      <p class="form-note">* Обязательные поля. Данные защищены и не передаются третьим лицам.</p>
+    </div>
+
+    <div class="success-msg" id="success-msg">
+      <h3>ЗАЯВКА ПРИНЯТА!</h3>
+      <p>Мы свяжемся с вами в ближайшее время. Спасибо за обращение!</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">AUTO<span>ГАРАЖ</span></div>
+        <p class="footer-desc">Профессиональный автосервис. Продажа авто, изготовление ключей, диагностика и тюнинг.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <p>📍 г. Москва, ул. Примерная, 1</p>
+        <p>📞 +7 (000) 000-00-00</p>
+        <p>✉️ info@autogarazh.ru</p>
+      </div>
+      <div class="footer-col">
+        <h4>Режим работы</h4>
+        <p>Пн–Пт: 9:00 – 20:00</p>
+        <p>Сб: 10:00 – 18:00</p>
+        <p>Вс: выходной</p>
+        <br>
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Согласие на обработку ПД</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 АвтоГараж. Все права защищены.</p>
+      <p>Данные хранятся на серверах в РФ согласно ФЗ-152</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function handleSubmit() {
+  var name = document.getElementById('f-name').value.trim();
+  var phone = document.getElementById('f-phone').value.trim();
+  var consent = document.getElementById('consent-pd').checked;
+  if (!name || !phone || !consent) {
+    alert('Заполните обязательные поля и подтвердите согласие на обработку данных.');
+    return;
+  }
+  document.getElementById('form-container').style.display = 'none';
+  var s = document.getElementById('success-msg');
+  s.style.display = 'block';
+}
+var phoneInput = document.getElementById('f-phone');
+if (phoneInput) {
+  phoneInput.addEventListener('input', function(e) {
+    var v = e.target.value.replace(/\D/g,'');
+    if (v.length > 0) {
+      if (v[0] === '7' || v[0] === '8') v = v.slice(1);
+      var f = '+7';
+      if (v.length > 0) f += ' (' + v.slice(0,3);
+      if (v.length >= 3) f += ') ' + v.slice(3,6);
+      if (v.length >= 6) f += '-' + v.slice(6,8);
+      if (v.length >= 8) f += '-' + v.slice(8,10);
+      e.target.value = f;
+    }
+  });
+}
+</script>
+</body>
+</html>
